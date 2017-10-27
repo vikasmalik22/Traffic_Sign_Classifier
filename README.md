@@ -19,12 +19,12 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
+[image1]: ./examples/Sign_Classes.png "Sign Classes"
+[image2]: ./examples/Train_Examples.png "Training Bar Chart"
+[image3]: ./examples/Test_Examples.png "Test Bar Chart"
+[image4]: ./examples/Validation_Examples.png "Validation Bar Char"
+[image5]: ./examples/Original_Img.png "Original Image"
+[image6]: ./examples/Jittered_Dataset.png "Jittered Dataset"
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
 
@@ -34,9 +34,15 @@ The goals / steps of this project are the following:
 ---
 ###Writeup / README
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
+You're reading it! and here is a link to my [project code](http://)
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+##Start the Project
+1. Download the dataset. This is a pickled dataset in which we've already resized the images to 32x32.
+2. Clone the project and start the notebook.
+git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
+cd CarND-Traffic-Sign-Classifier-Project
+3. Launch the Jupyter notebook: jupyter notebook Traffic_Sign_Classifier.ipynb
+4. Follow the instructions in the notebook
 
 ###Data Set Summary & Exploration
 
@@ -45,40 +51,54 @@ You're reading it! and here is a link to my [project code](https://github.com/ud
 I used the pandas library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is ?
-* The size of the validation set is ?
+* The size of training set is ? 
+347990
+* The size of the validation set is ? 
+4410
 * The size of test set is ?
+12630
 * The shape of a traffic sign image is ?
+(32, 32, 3)
 * The number of unique classes/labels in the data set is ?
+43
 
 ####2. Include an exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here is an exploratory visualization of the data set. 
+The image below shows all the 43 different Traffic Signs extracted from the dataset with their correct labels. 
 
 ![alt text][image1]
+
+The three bar charts below shows the dataset distribution between Test, Training and Validation examples.
+
+![alt text][image2]
+
+![alt text][image3]
+
+![alt text][image4]
+
+The above plots shows us the amount of different datasets we have. And we use this dataset only to train and validate our Model the results are very bad. Since, this data is not enough to properly train our CNN model we need to generate more data using preprocessing the existing data.
+
+
 
 ###Design and Test a Model Architecture
 
 ####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+I decided to generate additional data because the available dataset is not enough to properly train the model and reach high level of accuracy.
 
-As a first step, I decided to convert the images to grayscale because ...
+As a first step, I decided to convert the existing images which are available in 32x32 pixel format to 26x26 because the side pixels are extra and do not contribute to much information about the sign. 
 
-Here is an example of a traffic sign image before and after grayscaling.
+Images do not have proper contrast, sharpness and differnt viewing angles representation, so I applied operations like gaussian blurness, rotation, transformation and affine transformation.
 
-![alt text][image2]
+To create the PreProcessed/Jittered Dataset, I used the function Create_Jittered_Dataset.
 
-As a last step, I normalized the image data because ...
+Color of the images were not changed to grayscale because the colors can be the main distinguishing factor between some signs. When I tried to run/train the CNN with grayscale images my accuracy was never going beyond 0.8 and was giving quite bad results. This is opposite to theory described by Pierre Sermanet and Yann LeCun in their paper Traffic Sign Recognition with Multi-Scale Convolutional Networks from [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf)
 
-I decided to generate additional data because ... 
+Here is an example of a traffic sign image before and after Jittered Dataset.
 
-To add more data to the the data set, I used the following techniques because ... 
+![alt text][image5]
 
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
-
+![alt text][image6]
 
 ####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
@@ -100,17 +120,29 @@ My final model consisted of the following layers:
 
 ####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+To train the model, I used following values
+EPOCHS = 15
+BATCH_SIZE = 128
+
+Hyperparameters 
+mu = 0.0
+sigma = 0.1
+base_rate = 0.0005 #Base learning rate
+dropout = 0.5 #dropout rate
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
+* training set accuracy of ? 
+1.0
+* validation set accuracy of ?
+99.49
 * test set accuracy of ?
+95.5
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
+I tried using the 
 * What were some problems with the initial architecture?
 * How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
 * Which parameters were tuned? How were they adjusted and why?
