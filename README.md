@@ -29,8 +29,8 @@ The goals / steps of this project are the following:
 [image8]: ./Test_Images/1x.png "Traffic Sign 1"
 [image9]: ./Test_Images/2x.png "Traffic Sign 2"
 [image10]: ./Test_Images/3x.png "Traffic Sign 3"
-[image11]: ./Test_Images/4x.png "Traffic Sign 4"
-[image12]: ./Test_Images/5x.png "Traffic Sign 5"
+[image11]: ./Test_Images/5x.png "Traffic Sign 4"
+[image12]: ./Test_Images/6x.png "Traffic Sign 5"
 [image13]: ./examples/Prediction_Result.png "Prediction Results"
 [image14]: ./examples/Softmax_1.png "Softmax 1"
 [image15]: ./examples/Softmax_2.png "Softmax 2"
@@ -91,7 +91,7 @@ The above plots shows us the amount of different datasets we have. And we use th
 
 ###Design and Test a Model Architecture
 
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc.
 I decided to generate additional data because the available dataset is not enough to properly train the model and reach high level of accuracy.
 
 As a first step, I decided to convert the existing images which are available in 32x32 pixel format to 26x26 because the side pixels are extra and do not contribute to much information about the sign. 
@@ -138,7 +138,7 @@ sigma = 0.1
 base_rate = 0.0005 #Base learning rate
 dropout = 0.5 #dropout rate
 
-####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. 
 
 The approach was mainly trial and error based to get a final solution and achieving accuracy above 0.93 atleast. 
 
@@ -151,14 +151,19 @@ I first tried using the [LeNet-5. Source: Yann Lecun.](http://yann.lecun.com/exd
 * What were some problems with the initial architecture?
 With the LeNet-5 Model, I was not able to achieve the accuracy above 0.8 even after fine tuning many parameters and hyperparameters. 
 
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
+##### How was the architecture adjusted and why was it adjusted?
 After not able to achieve the desired results I completely changed my model to GoogLeNet which uses inception module implementation. 
 
-* Which parameters were tuned? How were they adjusted and why?
+##### Which parameters were tuned? How were they adjusted and why?
+Epoch, learning rate, batch size, and drop out probability were all parameters tuned along with the number of random modifications to generate more image data was tuned. For Epoch, I started with the bigger number but since the model accuracy didn't improve after certain epochs I decided to reduce it. The batch size was not changed much I just changed it within the range of 100 - 128. The learning rate I chose initally was .001 which is the standard starting rate generally used, but as I was not getting better accuracy I tuned it to 0.0005 and it helped me in improving the accuracy of the data. The dropout probability I left mainly unchanged and kept it as standard value of 0.5. The most important factor was generating and preprocessing or creating jittered dataset randomly which helped in achieving much better results.
 
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+##### What are some of the important design choices and why were they chosen? 
+There were few important design choices and they were chosen based on the trial and error based approach and also what many blogs and reseacrch papers recommended.
+1. Fine Tuning and generating the extra dataset from the existing one. So that the model can train and learn well.
+2. The CNN architecture itself. In this case GoogLeNet with inception features.
+3. Playing around with the parameters and hyperparameters. 
 
-If a well known architecture was chosen:
+##### If a well known architecture was chosen:
 * What architecture was chosen?
 I choose the GoogLeNet architecture. 
 
@@ -180,7 +185,7 @@ So I decided to choose this and was kind of confident it will give better result
 
 ###Test a Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
 Here are five German traffic signs that I found on the web:
 
@@ -188,7 +193,7 @@ Here are five German traffic signs that I found on the web:
 
 The first image might be difficult to classify because ...
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set.
 
 Here are the results of the prediction:
 
@@ -196,8 +201,7 @@ Here are the results of the prediction:
 
 The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This shows the model is able to predict the real world german signs accurately. 
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
-
+### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 Following are the softmax probabilities for each sign prediction:
 
 ![alt text][image14]
