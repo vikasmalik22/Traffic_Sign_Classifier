@@ -34,7 +34,8 @@ The goals / steps of this project are the following:
 [image13]: ./examples/Prediction_Result.png "Prediction Results"
 [image14]: ./examples/Softmax_1.png "Softmax 1"
 [image15]: ./examples/Softmax_2.png "Softmax 2"
-[image16]: ./examples/Softmax_3.png "Softma 3"
+[image16]: ./examples/Softmax_3.png "Softmax 3"
+[image17]: ./examples/GoogLeNet_Inception.png "Inception"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -92,7 +93,9 @@ The above plots shows us the amount of different datasets we have. And we use th
 ###Design and Test a Model Architecture
 
 ####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc.
-I decided to generate additional data because the available dataset is not enough to properly train the model and reach high level of accuracy.
+From the above plots it is clear that we have some data sets which are present more than some of the others. For example, in a traffic sign identification task, there may be more stop signs than speed limit signs. Therefore, in these cases, we need to make sure that the trained model is not biased towards the class that has more data. As an example, consider a data set where there are 5 speed limit signs and 20 stop signs. If the model predicts all signs to be stop signs, its accuracy is 80%. Further, f1-score of such a model is 0.88. Therefore, the model has high tendency to be biased toward the 'stop' sign class. In such cases, additional data needs to be generated to make the size of data sets is similar.
+
+One way to collect more data is to take the picture of the same sign from different angles. This can be done easily in openCV by applying affine transformations, such as rotations, translations and shearing. Affine transformations are transformations where the parallel lines before transformation remain parallel after transformation.
 
 As a first step, I decided to convert the existing images which are available in 32x32 pixel format to 26x26 because the side pixels are extra and do not contribute to much information about the sign. 
 
@@ -133,8 +136,8 @@ EPOCHS = 15
 BATCH_SIZE = 128
 
 Hyperparameters 
-mu = 0.0
-sigma = 0.1
+mu = 0.0 #mean
+sigma = 0.1 #standard deviation
 base_rate = 0.0005 #Base learning rate
 dropout = 0.5 #dropout rate
 
@@ -155,12 +158,14 @@ With the LeNet-5 Model, I was not able to achieve the accuracy above 0.8 even af
 After not able to achieve the desired results I completely changed my model to GoogLeNet which uses inception module implementation. 
 
 ##### Which parameters were tuned? How were they adjusted and why?
-Epoch, learning rate, batch size, and drop out probability were all parameters tuned along with the number of random modifications to generate more image data was tuned. For Epoch, I started with the bigger number but since the model accuracy didn't improve after certain epochs I decided to reduce it. The batch size was not changed much I just changed it within the range of 100 - 128. The learning rate I chose initally was .001 which is the standard starting rate generally used, but as I was not getting better accuracy I tuned it to 0.0005 and it helped me in improving the accuracy of the data. The dropout probability I left mainly unchanged and kept it as standard value of 0.5. The most important factor was generating and preprocessing or creating jittered dataset randomly which helped in achieving much better results.
+Epoch, learning rate, batch size, and drop out probability were all parameters tuned along with the number of random modifications to generate more image data was tuned. For Epoch, I started with the bigger number but since the model accuracy didn't improve after certain epochs I decided to reduce it. The batch size was not changed much I just changed it within the range of 100 - 128. The learning rate I chose initally was .001 which is the standard starting rate generally used, but as I was not getting better accuracy I tuned it to 0.0005 and it helped me in improving the accuracy of the data. The dropout probability I left mainly unchanged and kept it as standard value of 0.5. Dropout lets the Network to never rely on any given activation to be present because they might be terminated at any given time. So it is foreced to learn a redundant representation of everything to make sure that at least some of the information remains. It makes the network more robust & prevents overfitting.
+The most important factor was generating and preprocessing or creating jittered dataset randomly which helped in achieving much better results.
 
 ##### What are some of the important design choices and why were they chosen? 
 There were few important design choices and they were chosen based on the trial and error based approach and also what many blogs and reseacrch papers recommended.
 1. Fine Tuning and generating the extra dataset from the existing one. So that the model can train and learn well.
 2. The CNN architecture itself. In this case GoogLeNet with inception features.
+Maxpooling -> the benefit of the max pooling operation is to reduce the size of the input, and allow the neural network to focus on only the most important elements. Max pooling does this by only retaining the maximum value for each filtered area, and removing the remaining values.
 3. Playing around with the parameters and hyperparameters. 
 
 ##### If a well known architecture was chosen:
@@ -169,8 +174,12 @@ I choose the GoogLeNet architecture.
 
 * Why did you believe it would be relevant to the traffic sign application?
 Since, GoogLeNet model has proven results based on the research I did on the internet after reading many blogs and papers. 
-Also, the inception implementation gives it an edge against other architecture models. 
+Also, the inception implementation gives it an edge against other architecture models. The main idea of the Inception architecture is to consider
+how an optimal local sparse structure of a convolutional vision network can be approximated and covered by readily available dense components. I implemented the inception module with dimensionality reduction architecture because this is computationaly less expensive than naive inception module. 
+
 So I decided to choose this and was kind of confident it will give better results in terms of accuracy for Traffic Sign Classification. 
+
+![alt text][image17] [Source](https://arxiv.org/pdf/1409.4842.pdf)
 
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
     
@@ -199,7 +208,7 @@ Here are the results of the prediction:
 
 ![alt text][image13]
 
-The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This shows the model is able to predict the real world german signs accurately. 
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This shows the model is able to predict the real world data accurately. 
 
 ### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 Following are the softmax probabilities for each sign prediction:
