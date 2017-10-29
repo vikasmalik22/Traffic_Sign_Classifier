@@ -48,7 +48,9 @@ The goals / steps of this project are the following:
 ---
 ###Writeup / README
 
-You're reading it! and here is a link to my [project code](http://)
+You're reading it! and here is a link to my [project code](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/Traffic_Sign_Classifier.ipynb)
+
+I used AWS EC2 GPUs g2.2xlarge instances to run this project because it was way faster than to train it on GPU on my PC. I also tried it on my PC whcih has Nvidia GEForce 960M but the process takes too much time and it's difficult to tune the model again and again since the running time on PC was anywhere 5-6 horus. And running it on AWS was 1-2 hours. 
 
 ##Start the Project
 1. Download the dataset. This is a pickled dataset in which we've already resized the images to 32x32.
@@ -62,7 +64,7 @@ cd CarND-Traffic-Sign-Classifier-Project
 
 ####1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
 
-I used the pandas library to calculate summary statistics of the traffic
+I used the pandas and numpy library to calculate summary statistics of the traffic
 signs data set:
 
 * The size of training set is ? 
@@ -142,7 +144,8 @@ My final model consisted of the following layers:
 | Dropout				| 0.5											|
 | Fully connected		| output 43		       							|
 
-![alt text][image17] [Source](https://arxiv.org/pdf/1409.4842.pdf)
+![alt text][image17]
+[Source](https://arxiv.org/pdf/1409.4842.pdf)
  
 
 
@@ -239,9 +242,7 @@ The model was able to correctly guess 5 of the 5 traffic signs, which gives an a
 ### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 Following are the softmax probabilities for each sign prediction:
 
-![alt text][image14]
-![alt text][image15]
-![alt text][image16]
+![alt text][image14] ![alt text][image15] ![alt text][image16]
 
 For all the traffic sign images choosen somehow the model had the accuracy of 100% or the probabilty of 1. 
 
