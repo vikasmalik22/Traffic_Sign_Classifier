@@ -29,13 +29,18 @@ The goals / steps of this project are the following:
 [image8]: ./Test_Images/1x.png "Traffic Sign 1"
 [image9]: ./Test_Images/2x.png "Traffic Sign 2"
 [image10]: ./Test_Images/3x.png "Traffic Sign 3"
-[image11]: ./Test_Images/5x.png "Traffic Sign 4"
-[image12]: ./Test_Images/6x.png "Traffic Sign 5"
+[image11]: ./Test_Images/4x.png "Traffic Sign 4"
+[image12]: ./Test_Images/5x.png "Traffic Sign 5"
 [image13]: ./examples/Prediction_Result.png "Prediction Results"
 [image14]: ./examples/Softmax_1.png "Softmax 1"
 [image15]: ./examples/Softmax_2.png "Softmax 2"
 [image16]: ./examples/Softmax_3.png "Softmax 3"
 [image17]: ./examples/GoogLeNet_Inception.png "Inception"
+[image18]: ./Test_Images/6x.png "Traffic Sign 6"
+[image19]: ./Test_Images/7x.png "Traffic Sign 7"
+[image20]: ./Test_Images/8x.png "Traffic Sign 8"
+[image21]: ./Test_Images/9x.png "Traffic Sign 9"
+[image22]: ./Test_Images/10x.png "Traffic Sign 10"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -99,7 +104,7 @@ One way to collect more data is to take the picture of the same sign from differ
 
 As a first step, I decided to convert the existing images which are available in 32x32 pixel format to 26x26 because the side pixels are extra and do not contribute to much information about the sign. 
 
-Images do not have proper contrast, sharpness and differnt viewing angles representation, so I applied operations like gaussian blurness, rotation, transformation and affine transformation.
+Images do not have proper contrast, sharpness and differnt viewing angles representation, so I applied operations like gaussian blurness, histogram equalization, rotation, transformation and affine transformation.
 
 To create the PreProcessed/Jittered Dataset, I used the function Create_Jittered_Dataset.
 
@@ -111,21 +116,33 @@ Here is an example of a traffic sign image before and after Jittered Dataset.
 
 ![alt text][image6]
 
+After, preprocessing the training and validation data I combined them and then split them in 0.8 and 0.2. 
+
+Following is the distribution obtained after preprocessing.
+
+
 ####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Input         		| 26x26x3 RGB image   							| 
+| Convolution 1x1     	| 1x1 stride, same padding, outputs 26x26x3		|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+| Convolution 5x5		| 1x1 stride, same padding, outputs 26x26x64	|
+| RELU					|												|
+| Inception Module		| Output 26x26x256								|
+| Max pooling	      	| 2x2 stride,  outputs 13x13x256				|
+| Inception Module		| Output 13x13x512								|
+| Max pooling	      	| 3x3 stride,  outputs 6x6x512					|
+| Convolution 1x1     	| 1x1 stride, same padding, outputs 6x6x256		|
+| Flatten				| output 9216									|
+| Fully connected		| output 512        							|
+| Dropout				| 0.5											|
+| Fully connected		| output 43		       							|
+
+![alt text][image17] [Source](https://arxiv.org/pdf/1409.4842.pdf)
  
 
 
@@ -134,11 +151,12 @@ My final model consisted of the following layers:
 To train the model, I used following values
 EPOCHS = 15
 BATCH_SIZE = 128
+Optimizer = AdamOptimizer
 
 Hyperparameters 
 mu = 0.0 #mean
 sigma = 0.1 #standard deviation
-base_rate = 0.0005 #Base learning rate
+base_rate = 0.0004 #Base learning rate
 dropout = 0.5 #dropout rate
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. 
@@ -155,7 +173,7 @@ I first tried using the [LeNet-5. Source: Yann Lecun.](http://yann.lecun.com/exd
 With the LeNet-5 Model, I was not able to achieve the accuracy above 0.8 even after fine tuning many parameters and hyperparameters. 
 
 ##### How was the architecture adjusted and why was it adjusted?
-After not able to achieve the desired results I completely changed my model to GoogLeNet which uses inception module implementation. 
+After not able to achieve the desired results I completely changed my model to GoogLeNet which uses inception module implementation.
 
 ##### Which parameters were tuned? How were they adjusted and why?
 Epoch, learning rate, batch size, and drop out probability were all parameters tuned along with the number of random modifications to generate more image data was tuned. For Epoch, I started with the bigger number but since the model accuracy didn't improve after certain epochs I decided to reduce it. The batch size was not changed much I just changed it within the range of 100 - 128. The learning rate I chose initally was .001 which is the standard starting rate generally used, but as I was not getting better accuracy I tuned it to 0.0005 and it helped me in improving the accuracy of the data. The dropout probability I left mainly unchanged and kept it as standard value of 0.5. Dropout lets the Network to never rely on any given activation to be present because they might be terminated at any given time. So it is foreced to learn a redundant representation of everything to make sure that at least some of the information remains. It makes the network more robust & prevents overfitting.
@@ -179,28 +197,36 @@ how an optimal local sparse structure of a convolutional vision network can be a
 
 So I decided to choose this and was kind of confident it will give better results in terms of accuracy for Traffic Sign Classification. 
 
-![alt text][image17] [Source](https://arxiv.org/pdf/1409.4842.pdf)
-
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
     
     My final model results are:
     
     * training set accuracy of ? 
-    1.0
+    99.96
     * validation set accuracy of ?
     99.49
     * test set accuracy of ?
-    95.5
+    95.4
 
 ###Test a Model on New Images
 
 ### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web:
+Here are ten German traffic signs that I found on the web and tested against my CNN.
 
-![alt text][image8] ![alt text][image9] ![alt text][image10]  ![alt text][image11] ![alt text][image12]
+![alt text][image8] ![alt text][image9] ![alt text][image10]  ![alt text][image11] ![alt text][image12] ![alt text][image18] ![alt text][image19] ![alt text][image20] ![alt text][image21] ![alt text][image22] 
 
-The first image might be difficult to classify because ...
+The speed signs like 30 and 60 Km/h might be difficult to predict since all the signs have an outer red ring and if the numbers between the white area are not properly processed might result in predicting wrong result. 
+![alt text][image9] ![alt text][image11]
+
+Same looks with the sign of No vehicles which is very similar to speed signs except the inner white circular region doesn't contain any number.
+![alt text][image20]
+
+Bumpy road sign contains an outer red triangle and an inner pattern which is similar to other signals like biclycle crossing or wild animals crossing. Since if this inner pattern is not very clear in the images it might be difficult to predict accurately. 
+![alt text][image19]
+
+Same is the case with Turn left ahead sign and Go straight or left. These signs have a blue circular region and contains white colored arrows inside. This might make them difficult to distinguish between their characterisitcs. 
+![alt text][image18] ![alt text][image22]
 
 ### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set.
 
