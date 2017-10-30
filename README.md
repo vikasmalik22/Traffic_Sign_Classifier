@@ -31,16 +31,17 @@ The goals / steps of this project are the following:
 [image10]: ./Test_Images/3x.png "Traffic Sign 3"
 [image11]: ./Test_Images/4x.png "Traffic Sign 4"
 [image12]: ./Test_Images/5x.png "Traffic Sign 5"
-[image13]: ./examples/Prediction_Result.png "Prediction Results"
-[image14]: ./examples/Softmax_1.png "Softmax 1"
-[image15]: ./examples/Softmax_2.png "Softmax 2"
-[image16]: ./examples/Softmax_3.png "Softmax 3"
+[image13]: ./examples/Prediction_Result1.png "Prediction Result 1"
 [image17]: ./examples/GoogLeNet_Inception.png "Inception"
 [image18]: ./Test_Images/6x.png "Traffic Sign 6"
 [image19]: ./Test_Images/7x.png "Traffic Sign 7"
 [image20]: ./Test_Images/8x.png "Traffic Sign 8"
 [image21]: ./Test_Images/9x.png "Traffic Sign 9"
 [image22]: ./Test_Images/10x.png "Traffic Sign 10"
+[image23]: ./examples/Prediction_Result2.png "Prediction Result 2"
+[image24]: ./examples/Softmax_1.png "Softmax Result 1"
+[image25]: ./examples/Softmax_2.png "Softmax Result 1"
+[image26]: ./examples/Softmax_3.png "Softmax Result 1"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -53,7 +54,7 @@ You're reading it! and here is a link to my [project code](https://github.com/vi
 I used AWS EC2 GPUs g2.2xlarge instances to run this project because it was way faster than to train it on GPU on my PC. I also tried it on my PC whcih has Nvidia GEForce 960M but the process takes too much time and it's difficult to tune the model again and again since the running time on PC was anywhere 5-6 horus. And running it on AWS was 1-2 hours. 
 
 ## Start the Project
-1. Download the dataset. This is a pickled dataset in which we've already resized the images to 32x32.
+1. Download the dataset. This is a pickled dataset in which we've already resized the images to 32x32. [Available here](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip)
 2. Clone the project and start the notebook.
 git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
 cd CarND-Traffic-Sign-Classifier-Project
@@ -157,7 +158,7 @@ Optimizer = AdamOptimizer
 Hyperparameters 
 mu = 0.0 #mean
 sigma = 0.1 #standard deviation
-base_rate = 0.0004 #Base learning rate
+base_rate = 0.0005 #Base learning rate
 dropout = 0.5 #dropout rate
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. 
@@ -202,11 +203,11 @@ So I decided to choose this and was kind of confident it will give better result
     My final model results are:
     
     * training set accuracy of ? 
-    99.96
+    99.40
     * validation set accuracy of ?
-    99.49
+    99.10
     * test set accuracy of ?
-    95.4
+    94.6
 
 ### Test a Model on New Images
 
@@ -237,20 +238,20 @@ Same is the case with Turn left ahead sign and Go straight or left. These signs 
 
 Here are the results of the prediction:
 
+![alt text][image13] ![alt text][image23]
 
-
-The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This shows the model is able to predict the real world data accurately. 
+The model was able to correctly guess 10 of the 10 traffic signs, which gives an accuracy of 100%. This shows the model is able to predict the real world data accurately. While the Test Accuracy was 0.946 but the model was able to guess all the 10 traffic signs correctly. This shows that model works well to guess the real world images. 
 
 ### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 Following are the softmax probabilities for each sign prediction:
 
-
+![alt text][image24] ![alt text][image25] ![alt text][image26]
 
 For all the traffic sign images choosen somehow the model had the accuracy of 100% or the probabilty of 1. 
 
-Fomr the above results of the 5 images it looks the system is quite reliable on prediciting the real world data.
+From the above results of the 10 images it looks the system is quite reliable on prediciting the real world data.
 
-As an improvement, may be I should use some more example images where the model doesn't have this perfect probability for the traffic sign.
+As discussed before the bumpy road sign probability is very close to the sign bicycles crossing. Other traffic signs didn't have probabilities from other signs which shows that network was trained very precisely for all others signs.
 
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
