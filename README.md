@@ -143,7 +143,7 @@ My final model consisted of the following layers:
 | Dropout				| 0.5											|
 | Fully connected		| output 43		       							|
 
-![alt text][image17]
+![GoogLeNet](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/examples/GoogLeNet_Inception.PNG)
 [Source](https://arxiv.org/pdf/1409.4842.pdf)
  
 
@@ -238,7 +238,10 @@ Same is the case with Turn left ahead sign and Go straight or left. These signs 
 
 Here are the results of the prediction:
 
-![alt text][image13] ![alt text][image23]
+![Prediction Result 1](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/examples/Prediction_Result1.PNG)
+
+![Prediction Result 2](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/examples/Prediction_Result2.PNG)
+
 
 The model was able to correctly guess 10 of the 10 traffic signs, which gives an accuracy of 100%. This shows the model is able to predict the real world data accurately. While the Test Accuracy was 0.946 but the model was able to guess all the 10 traffic signs correctly. This shows that model works well to guess the real world images. 
 
