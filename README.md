@@ -245,7 +245,11 @@ The model was able to correctly guess 10 of the 10 traffic signs, which gives an
 ### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 Following are the softmax probabilities for each sign prediction:
 
-![alt text][image24] ![alt text][image25] ![alt text][image26]
+![Softmax1](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/examples/Softmax_1.PNG)
+
+![Softmax2](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/examples/Softmax_2.PNG)
+
+![Softmax3](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/examples/Softmax_3.PNG)
 
 For all the traffic sign images choosen somehow the model had the accuracy of 100% or the probabilty of 1. 
 
