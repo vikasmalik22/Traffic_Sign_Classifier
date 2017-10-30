@@ -1,8 +1,8 @@
-#**Traffic Sign Recognition** 
+# Traffic Sign Recognition
 
-##Writeup Template
+## Writeup Template
 
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
 
 ---
 
@@ -43,16 +43,16 @@ The goals / steps of this project are the following:
 [image22]: ./Test_Images/10x.png "Traffic Sign 10"
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
+### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
+### Writeup / README
 
 You're reading it! and here is a link to my [project code](https://github.com/vikasmalik22/Traffic_Sign_Classifier/blob/master/Traffic_Sign_Classifier.ipynb)
 
 I used AWS EC2 GPUs g2.2xlarge instances to run this project because it was way faster than to train it on GPU on my PC. I also tried it on my PC whcih has Nvidia GEForce 960M but the process takes too much time and it's difficult to tune the model again and again since the running time on PC was anywhere 5-6 horus. And running it on AWS was 1-2 hours. 
 
-##Start the Project
+## Start the Project
 1. Download the dataset. This is a pickled dataset in which we've already resized the images to 32x32.
 2. Clone the project and start the notebook.
 git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
@@ -60,15 +60,15 @@ cd CarND-Traffic-Sign-Classifier-Project
 3. Launch the Jupyter notebook: jupyter notebook Traffic_Sign_Classifier.ipynb
 4. Follow the instructions in the notebook
 
-###Data Set Summary & Exploration
+### Data Set Summary & Exploration
 
-####1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+#### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
 
 I used the pandas and numpy library to calculate summary statistics of the traffic
 signs data set:
 
 * The size of training set is ? 
-347990
+34799
 * The size of the validation set is ? 
 4410
 * The size of test set is ?
@@ -78,7 +78,7 @@ signs data set:
 * The number of unique classes/labels in the data set is ?
 43
 
-####2. Include an exploratory visualization of the dataset.
+#### 2. Include an exploratory visualization of the dataset.
 
 Here is an exploratory visualization of the data set. 
 The image below shows all the 43 different Traffic Signs extracted from the dataset with their correct labels. 
@@ -95,11 +95,9 @@ The three bar charts below shows the dataset distribution between Test, Training
 
 The above plots shows us the amount of different datasets we have. And we use this dataset only to train and validate our Model the results are very bad. Since, this data is not enough to properly train our CNN model we need to generate more data using preprocessing the existing data.
 
+### Design and Test a Model Architecture
 
-
-###Design and Test a Model Architecture
-
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc.
+#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc.
 From the above plots it is clear that we have some data sets which are present more than some of the others. For example, in a traffic sign identification task, there may be more stop signs than speed limit signs. Therefore, in these cases, we need to make sure that the trained model is not biased towards the class that has more data. As an example, consider a data set where there are 5 speed limit signs and 20 stop signs. If the model predicts all signs to be stop signs, its accuracy is 80%. Further, f1-score of such a model is 0.88. Therefore, the model has high tendency to be biased toward the 'stop' sign class. In such cases, additional data needs to be generated to make the size of data sets is similar.
 
 One way to collect more data is to take the picture of the same sign from different angles. This can be done easily in openCV by applying affine transformations, such as rotations, translations and shearing. Affine transformations are transformations where the parallel lines before transformation remain parallel after transformation.
@@ -123,7 +121,7 @@ After, preprocessing the training and validation data I combined them and then s
 Following is the distribution obtained after preprocessing.
 
 
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
 My final model consisted of the following layers:
 
@@ -149,7 +147,7 @@ My final model consisted of the following layers:
  
 
 
-####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
 To train the model, I used following values
 EPOCHS = 15
@@ -162,17 +160,16 @@ sigma = 0.1 #standard deviation
 base_rate = 0.0004 #Base learning rate
 dropout = 0.5 #dropout rate
 
-####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. 
+#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. 
 
 The approach was mainly trial and error based to get a final solution and achieving accuracy above 0.93 atleast. 
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
+###### What was the first architecture that was tried and why was it chosen?
 I first tried using the [LeNet-5. Source: Yann Lecun.](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf). Since, it was taught in the programme and had good resuts with the MNIST dataset. 
 
 ![alt text][image7]
 
-* What were some problems with the initial architecture?
+###### What were some problems with the initial architecture?
 With the LeNet-5 Model, I was not able to achieve the accuracy above 0.8 even after fine tuning many parameters and hyperparameters. 
 
 ##### How was the architecture adjusted and why was it adjusted?
@@ -190,17 +187,17 @@ Maxpooling -> the benefit of the max pooling operation is to reduce the size of 
 3. Playing around with the parameters and hyperparameters. 
 
 ##### If a well known architecture was chosen:
-* What architecture was chosen?
+###### What architecture was chosen?
 I choose the GoogLeNet architecture. 
 
-* Why did you believe it would be relevant to the traffic sign application?
+###### Why did you believe it would be relevant to the traffic sign application?
 Since, GoogLeNet model has proven results based on the research I did on the internet after reading many blogs and papers. 
 Also, the inception implementation gives it an edge against other architecture models. The main idea of the Inception architecture is to consider
 how an optimal local sparse structure of a convolutional vision network can be approximated and covered by readily available dense components. I implemented the inception module with dimensionality reduction architecture because this is computationaly less expensive than naive inception module. 
 
 So I decided to choose this and was kind of confident it will give better results in terms of accuracy for Traffic Sign Classification. 
 
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+###### How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
     
     My final model results are:
     
@@ -211,22 +208,27 @@ So I decided to choose this and was kind of confident it will give better result
     * test set accuracy of ?
     95.4
 
-###Test a Model on New Images
+### Test a Model on New Images
 
 ### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
 Here are ten German traffic signs that I found on the web and tested against my CNN.
 
 ![alt text][image8] ![alt text][image9] ![alt text][image10]  ![alt text][image11] ![alt text][image12] ![alt text][image18] ![alt text][image19] ![alt text][image20] ![alt text][image21] ![alt text][image22] 
+_ _ _
 
 The speed signs like 30 and 60 Km/h might be difficult to predict since all the signs have an outer red ring and if the numbers between the white area are not properly processed might result in predicting wrong result. 
 ![alt text][image9] ![alt text][image11]
 
+_ _ _
+
 Same looks with the sign of No vehicles which is very similar to speed signs except the inner white circular region doesn't contain any number.
 ![alt text][image20]
+_ _ _
 
 Bumpy road sign contains an outer red triangle and an inner pattern which is similar to other signals like biclycle crossing or wild animals crossing. Since if this inner pattern is not very clear in the images it might be difficult to predict accurately. 
 ![alt text][image19]
+_ _ _
 
 Same is the case with Turn left ahead sign and Go straight or left. These signs have a blue circular region and contains white colored arrows inside. This might make them difficult to distinguish between their characterisitcs. 
 ![alt text][image18] ![alt text][image22]
@@ -235,14 +237,14 @@ Same is the case with Turn left ahead sign and Go straight or left. These signs 
 
 Here are the results of the prediction:
 
-![alt text][image13]
+
 
 The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This shows the model is able to predict the real world data accurately. 
 
 ### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 Following are the softmax probabilities for each sign prediction:
 
-![alt text][image14] ![alt text][image15] ![alt text][image16]
+
 
 For all the traffic sign images choosen somehow the model had the accuracy of 100% or the probabilty of 1. 
 
@@ -252,7 +254,7 @@ As an improvement, may be I should use some more example images where the model 
 
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
 
 
